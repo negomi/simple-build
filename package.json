@@ -1,0 +1,37 @@
+{
+  "name": "simple-build",
+  "version": "1.0.0",
+  "description": "A minimal project template for static sites",
+  "devDependencies": {
+    "autoprefixer": "^6.3.4",
+    "browserify": "^13.0.0",
+    "live-server": "^0.9.2",
+    "mocha": "^2.4.5",
+    "node-sass": "^3.4.2",
+    "onchange": "^2.1.2",
+    "postcss-cli": "^2.5.1",
+    "uglify-js": "^2.6.2",
+    "watchify": "^3.7.0"
+  },
+  "scripts": {
+    "build-js": "browserify src/js/main.js | uglifyjs -mc > public/bundle.js",
+    "build-css": "node-sass --output-style compressed src/sass/main.scss | npm run autoprefixer",
+    "autoprefixer": "postcss --u autoprefixer --autoprefixer.browsers 'last 2 versions' > public/bundle.css",
+    "build": "npm run build-js && npm run build-css",
+    "watch-js": "watchify src/js/main.js -o public/bundle.js",
+    "watch-css": "onchange src/sass/**/*.scss -- node-sass src/sass/main.scss public/bundle.css",
+    "watch": "npm run watch-js & npm run watch-css",
+    "start": "npm run watch & live-server public --host=localhost",
+    "deploy": "npm run build && git subtree push --prefix public origin gh-pages",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/negomi/simple-build.git"
+  },
+  "bugs": {
+    "url": "https://github.com/negomi/simple-build/issues"
+  },
+  "author": "Imogen Wentworth",
+  "license": "MIT"
+}
